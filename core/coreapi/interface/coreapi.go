@@ -6,7 +6,6 @@ import (
 	"context"
 
 	ipld "gx/ipfs/QmWi2BYBL5gJ3CiAiQchg6rn1A8iBsrWy51EYxvHVjFvLb/go-ipld-format"
-	cid "gx/ipfs/QmapdYm1b22Frv3k17fqrBYTFRxwiaVJkB299Mfn33edeB/go-cid"
 )
 
 // CoreAPI defines an unified interface to IPFS for Go programs
@@ -38,13 +37,4 @@ type CoreAPI interface {
 	// ResolveNode resolves the path (if not resolved already) using Unixfs
 	// resolver, gets and returns the resolved Node
 	ResolveNode(context.Context, Path) (ipld.Node, error)
-
-	// ParsePath parses string path to a Path
-	ParsePath(string) (Path, error)
-
-	// IpfsPath creates new /ipfs path from the provided CID
-	IpfsPath(*cid.Cid) ResolvedPath
-
-	// IpldPath creates new /ipld path from the provided CID
-	IpldPath(*cid.Cid) ResolvedPath
 }
