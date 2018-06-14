@@ -19,6 +19,8 @@ import (
 	"github.com/ipfs/go-ipfs/thirdparty/verifbs"
 	uio "github.com/ipfs/go-ipfs/unixfs/io"
 
+	namesys "github.com/ipfs/go-ipfs/namesys"
+	record "gx/ipfs/QmPWjVzxHeJdrjp4Jr2R2sPxBrMbBgGPWQtKwCKHHCBF7x/go-libp2p-record"
 	offline "gx/ipfs/QmPf114DXfa6TqGKYhBGR7EtXRho4rCJgwyA1xkuMY5vwF/go-ipfs-exchange-offline"
 	p2phost "gx/ipfs/QmQQGtcp6nVUrQjNsnU53YWV1q8fK1Kd9S7FEkYbRZzxry/go-libp2p-host"
 	metrics "gx/ipfs/QmRg1gKTHzc3CZXSKzem8aR4E3TubFhbgXwfVuWnSK5CC5/go-metrics-interface"
@@ -141,6 +143,12 @@ func NewNode(ctx context.Context, cfg *BuildCfg) (*IpfsNode, error) {
 		ctx:       ctx,
 		Peerstore: pstore.NewPeerstore(),
 	}
+
+	n.RecordValidator = record.NamespacedValidator{
+		"pk":   record.PublicKeyValidator{},
+		"ipns": namesys.IpnsValidator{KeyBook: n.Peerstore},
+	}
+
 	if cfg.Online {
 		n.mode = onlineMode
 	}
